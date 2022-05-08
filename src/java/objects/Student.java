@@ -15,6 +15,9 @@ public class Student {
         disciplineWithZeroMark = new ArrayList<>(8);
     }
 
+    public String getStudentID() {
+        return studentID;
+    }
     public String getSurnameNamePatronicname() {
         return surnameNamePatronicname;
     }
