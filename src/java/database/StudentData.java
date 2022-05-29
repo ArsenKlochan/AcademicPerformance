@@ -52,27 +52,36 @@ public class  StudentData {
 
     //    додати студентів з БД
     public void addStudents(){
-        String typeOfControl = "0";
         String dateFrom = "2022-02-01 00:00:00";
+        int temp=0;
         try(Connection connection = connector.getConnection()) {
             Statement statement = connection.createStatement();
 //            вибір студентів з оцінками за досліджуваний семестр та за обраний вид контролю (nomsem%2=0 - парний семестр, nomsem%2=1 - непарний семестр)
-            ResultSet resultSet = statement.executeQuery("SELECT pass, D_ID, mark FROM module WHERE nomsem%2=0 && type_control_id = '"+ typeOfControl + "' && dt_from > '" + dateFrom + "'");
+            ResultSet resultSet = statement.executeQuery("SELECT pass, D_ID, mark, type_control_id FROM module WHERE type_control_id > 1 && nomsem%2=0 && dt_from > '" + dateFrom + "'");
+            String typeOfControl;
             while (resultSet.next()){
-                Student tempStudent = students.get(checkStudents(resultSet.getString(1)));
-                String tempDiscipline = resultSet.getString(2);
-                String tempMark = resultSet.getString(3);
-                addDiscipline(tempStudent, tempDiscipline, tempMark);
-            }
-            int temp = 0;
+                typeOfControl = resultSet.getString(4);
+//                if(Integer.parseInt(typeOfControl) > 1) {
+                    temp++;
+                    Student tempStudent = students.get(checkStudents(resultSet.getString(1)));
+                    String tempDiscipline = resultSet.getString(2);
+                    String tempMark = resultSet.getString(3);
+                    addDiscipline(tempStudent, tempDiscipline, tempMark, typeOfControl);
+                }
+//            }
+            temp=0;
             for (Student student: students) {
                 temp++;
                 distributionOfStudents(student);
                 System.out.println(temp);
             }
-        } catch (SQLException throwables) {
+        }
+        catch (SQLException throwables) {
             System.out.println("Something wrong with connection at students creation");
             throwables.printStackTrace();
+        }
+        catch (Exception e){
+            System.out.println(temp);
         }
     }
 //    розподіл студентів по групам, факультетам, спеціальностях
@@ -120,8 +129,29 @@ public class  StudentData {
         return studentId.indexOf(pass);
     }
 //    метод додавання дисципліни в відповідний масив для студента. Якщо дисципліна або практика або атестація, то не додає.
-    private void addDiscipline (Student student, String discipline, String mark){
+    private void addDiscipline (Student student, String discipline, String mark, String typeOfControl){
         if(!(listAtestations.contains(discipline) || listPracties.contains(discipline))){
+            try(Connection connection = connector.getConnection()) {
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery("SELECT DFullName FROM duscuplinu WHERE D_ID = '" + discipline + "'");
+                while (resultSet.next()) {
+                    if (typeOfControl.equals("7")) {
+                        discipline = "РГР " + resultSet.getString(1);
+                    }
+                    else if (typeOfControl.equals("6")) {
+                        discipline = "КП " + resultSet.getString(1);
+                    }
+                    else if (typeOfControl.equals("5")) {
+                        discipline = "КР " + resultSet.getString(1);
+                    }
+                    else {
+                        discipline = resultSet.getString(1);
+                    }
+                }
+            }
+            catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             if (mark.equals("0")){
                 student.setDisciplineWithZeroMark(discipline);
             }

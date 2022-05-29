@@ -4,13 +4,20 @@ import objects.*;
 import java.util.ArrayList;
 
 public class Main {
-    private static int[] studentsWithZeros = new int[11];
-    private static ArrayList<String>[] studentsNames = new ArrayList[12];
+    private static String[] nameOfZeros = {"0 нулів", "1 нуль", "2 нулі", "3 нулі", "4 нулі", "5 нулів", "6 нулів", "7 нулів", "8 нулів", "9 нулів", "10 нулів"};
+    private static int[] studentsWithZeros = new int[12];
+    private static ArrayList<Student>[] studentsNames = new ArrayList[12];
     private static ReportMaker reportMaker = new ReportMaker();
     public static void main(String[] args) {
+
         StudentData studentData = new StudentData();
         studentData.addStudents();
-        printData(studentData.getStudents(), "НТУ");
+
+//        for (int i = 2; i<=7; i++){
+//            System.out.println(String.valueOf(i));
+//            studentData.addStudents(String.valueOf(i));
+//        }
+//        printData(studentData.getStudents(), "НТУ");
         for (Faculty faculty: studentData.getFaculties()){
             printData(faculty.getStudentList(), faculty.getFacultuName());
         }
@@ -25,59 +32,60 @@ public class Main {
     private static void printData(ArrayList<Student> students, String name){
         for (int i =0; i < studentsNames.length; i++){
             studentsNames[i] = new ArrayList<>();
+            studentsWithZeros[i] = 0;
         }
         reportMaker.initialization();
-        reportMaker.addRecord(name + "\n");
+        reportMaker.addRecord(name + " (" + students.size() + " студентів) " + "\n");
         System.out.println(name);
         int studentWithAllZeros = 0;
         for (Student student: students){
             int zeros = student.getCountofZeros();
             if(student.getCountOfNonZeros() == 0){
-                studentsNames[11].add(student.getSurnameNamePatronicname());
-                studentWithAllZeros++;
+                studentsNames[11].add(student);
+                studentsWithZeros[11]++;
             }
             else if(zeros == 0){
-                studentsNames[0].add(student.getSurnameNamePatronicname());
+                studentsNames[0].add(student);
                 studentsWithZeros[0]++;
             }
             else if(zeros ==1){
-                studentsNames[1].add(student.getSurnameNamePatronicname());
+                studentsNames[1].add(student);
                 studentsWithZeros[1]++;
             }
             else if(zeros ==2){
-                studentsNames[2].add(student.getSurnameNamePatronicname());
+                studentsNames[2].add(student);
                 studentsWithZeros[2]++;
             }
             else if(zeros ==3){
-                studentsNames[3].add(student.getSurnameNamePatronicname());
+                studentsNames[3].add(student);
                 studentsWithZeros[3]++;
             }
             else if(zeros ==4){
-                studentsNames[4].add(student.getSurnameNamePatronicname());
+                studentsNames[4].add(student);
                 studentsWithZeros[4]++;
             }
             else if(zeros ==5){
-                studentsNames[5].add(student.getSurnameNamePatronicname());
+                studentsNames[5].add(student);
                 studentsWithZeros[5]++;
             }
             else if(zeros ==6){
-                studentsNames[6].add(student.getSurnameNamePatronicname());
+                studentsNames[6].add(student);
                 studentsWithZeros[6]++;
             }
             else if(zeros ==7){
-                studentsNames[7].add(student.getSurnameNamePatronicname());
+                studentsNames[7].add(student);
                 studentsWithZeros[7]++;
             }
             else if(zeros ==8){
-                studentsNames[8].add(student.getSurnameNamePatronicname());
+                studentsNames[8].add(student);
                 studentsWithZeros[8]++;
             }
             else if(zeros ==9){
-                studentsNames[9].add(student.getSurnameNamePatronicname());
+                studentsNames[9].add(student);
                 studentsWithZeros[9]++;
             }
             else if(zeros ==10){
-                studentsNames[10].add(student.getSurnameNamePatronicname());
+                studentsNames[10].add(student);
                 studentsWithZeros[10]++;
             }
         }
@@ -87,15 +95,29 @@ public class Main {
     }
 
     private static void addRecords(ArrayList<Student> students){
-        for (int i = 1; i< 11; i++){
-            if (studentsWithZeros[i] > 0){
-                String temp = "Кількість студентів у яких " + i + " нуль - " + studentsWithZeros[i] + ", що складає - " + (studentsWithZeros[i] * 10000 / students.size())/100.0 + "%";
-                reportMaker.addRecord(temp);
-                for (String str: studentsNames[8]){
-                    reportMaker.addRecord(str);
-                }
-                System.out.println(temp);
+        for (int i = 0; i<= 11; i++){
+            String temp = "";
+            if(i == 0){
+                temp = "Кількість студентів у яких немає нулів - " + studentsWithZeros[i] + ", що складає - " + (studentsWithZeros[i] * 10000 / students.size()) / 100.0 + "%" + "\n";
             }
+            else if(i == 11){
+                temp = "Кількість студентів у яких всі нулі - " + studentsWithZeros[i] + ", що складає - " + (studentsWithZeros[i] * 10000 / students.size())/100.0 + "%" + "\n";
+            }
+            else if(studentsWithZeros[i] > 0) {
+                temp = "Кількість студентів у яких " + nameOfZeros[i] + " - " + studentsWithZeros[i] + ", що складає - " + (studentsWithZeros[i] * 10000 / students.size()) / 100.0 + "%" + "\n";
+            }
+            reportMaker.addRecord(temp);
+            int count = 0;
+            for (Student student: studentsNames[i]){
+                count++;
+                reportMaker.addRecord(count + " " + student.getSurnameNamePatronicname() + " \n");
+                for(String str: student.getDisciplineWithZeroMark()){
+                    reportMaker.addRecord(str + ", ");
+                }
+                reportMaker.addRecord("\n");
+
+            }
+            System.out.println(temp);
         }
     }
 }
