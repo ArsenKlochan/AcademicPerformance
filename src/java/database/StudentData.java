@@ -22,6 +22,7 @@ public class  StudentData {
     private static String[] faculty = {"ФТБ", "АМФ", "ФМЛТ", "ФЗДН(ЦПК ППСз)", "ФЗДН(ЦЗДН)", "ФТІТ", "ФЗДН(ЦМОд)", "ФЗДН(ЦПК ППСд)", "ФЗДН(ЦМОз)", "ФЕП"};
     private static String[] formOfStudy = {"д", "з"};
     private static BaseConnector connector = new BaseConnector();
+    private static Connection connection = connector.getConnection();
 
     private ArrayList<Student> students = new ArrayList<>();
     private ArrayList<String> studentId = new ArrayList<>();
@@ -52,9 +53,9 @@ public class  StudentData {
 
     //    додати студентів з БД
     public void addStudents(){
-        String dateFrom = "2022-02-01 00:00:00";
+        String dateFrom = "2022-04-01 00:00:00";
         int temp=0;
-        try(Connection connection = connector.getConnection()) {
+        try{
             Statement statement = connection.createStatement();
 //            вибір студентів з оцінками за досліджуваний семестр та за обраний вид контролю (nomsem%2=0 - парний семестр, nomsem%2=1 - непарний семестр)
             ResultSet resultSet = statement.executeQuery("SELECT pass, D_ID, mark, type_control_id FROM module WHERE type_control_id > 1 && nomsem%2=0 && dt_from > '" + dateFrom + "'");
@@ -86,7 +87,7 @@ public class  StudentData {
     }
 //    розподіл студентів по групам, факультетам, спеціальностях
     public void distributionOfStudents(Student student){
-        try(Connection connection = connector.getConnection()){
+        try{
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT P, I, B, S_ID, NomGroup, NomKurs, FAC_ID, F_ID FROM anketu WHERE pass= '"+ student.getStudentID() +"'");
                 while (resultSet.next()) {
@@ -108,7 +109,7 @@ public class  StudentData {
 
     private String getSpecialityName(String S_ID) {
         String nameOfSpeciality = "";
-        try (Connection connection = connector.getConnection()) {
+        try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT SAbrCyr FROM spec WHERE S_ID = '" + S_ID + "'");
             while (resultSet.next()) {
@@ -131,7 +132,7 @@ public class  StudentData {
 //    метод додавання дисципліни в відповідний масив для студента. Якщо дисципліна або практика або атестація, то не додає.
     private void addDiscipline (Student student, String discipline, String mark, String typeOfControl){
         if(!(listAtestations.contains(discipline) || listPracties.contains(discipline))){
-            try(Connection connection = connector.getConnection()) {
+            try {
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery("SELECT DFullName FROM duscuplinu WHERE D_ID = '" + discipline + "'");
                 while (resultSet.next()) {
