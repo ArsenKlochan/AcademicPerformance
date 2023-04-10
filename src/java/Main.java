@@ -15,15 +15,15 @@ public class Main {
 
 //        for (int i = 2; i<=7; i++){
 //            System.out.println(String.valueOf(i));
-//            studentData.addStudents(String.valueOf(i));
+//            studentData.addStudents();
 //        }
-//        printData(studentData.getStudents(), "НТУ");
-        for (Faculty faculty: studentData.getFaculties()){
-            printData(faculty.getStudentList(), faculty.getFacultuName());
-        }
-        for (Speciality speciality: studentData.getSpecialities()){
-            printData(speciality.getStudentsList(), speciality.getSpecialityName());
-        }
+        printData(studentData.getStudents(), "НТУ");
+//        for (Faculty faculty: studentData.getFaculties()){
+//            printData(faculty.getStudentList(), faculty.getFacultuName());
+//        }
+//        for (Speciality speciality: studentData.getSpecialities()){
+//            printData(speciality.getStudentsList(), speciality.getSpecialityName());
+//        }
         for (Group group: studentData.getGroups()){
             printData(group.getStudentList(), group.getGroupName());
         }
@@ -36,7 +36,7 @@ public class Main {
         }
         reportMaker.initialization();
         reportMaker.addRecord(name + " (" + students.size() + " студентів) " + "\n");
-        System.out.println(name);
+//        System.out.println(name);
         int studentWithAllZeros = 0;
         for (Student student: students){
             int zeros = student.getCountofZeros();
@@ -107,17 +107,18 @@ public class Main {
                 temp = "Кількість студентів у яких " + nameOfZeros[i] + " - " + studentsWithZeros[i] + ", що складає - " + (studentsWithZeros[i] * 10000 / students.size()) / 100.0 + "%" + "\n";
             }
             reportMaker.addRecord(temp);
-            int count = 0;
-            for (Student student: studentsNames[i]){
-                count++;
-                reportMaker.addRecord(count + " " + student.getSurnameNamePatronicname() + " \n");
-                for(String str: student.getDisciplineWithZeroMark()){
-                    reportMaker.addRecord(str + ", ");
-                }
-                reportMaker.addRecord("\n");
-
-            }
-            System.out.println(temp);
+            // додавання інформації про студентів і дисципліни з яких у них нулі
+//            int count = 0;
+//            for (Student student: studentsNames[i]){
+//                count++;
+//                reportMaker.addRecord(count + " " + student.getSurnameNamePatronicname() + " \n");
+//                for(String str: student.getDisciplineWithZeroMark()){
+//                    reportMaker.addRecord(str + ", ");
+//                }
+//                reportMaker.addRecord("\n");
+//
+//            }
+//            System.out.println(temp);
         }
     }
 }
