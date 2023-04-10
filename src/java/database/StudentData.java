@@ -129,6 +129,7 @@ public class  StudentData {
         }
         return studentId.indexOf(pass);
     }
+    //
 //    метод додавання дисципліни в відповідний масив для студента. Якщо дисципліна або практика або атестація, то не додає.
     private void addDiscipline (Student student, String discipline, String mark, String typeOfControl){
         if(!(listAtestations.contains(discipline) || listPracties.contains(discipline))){
