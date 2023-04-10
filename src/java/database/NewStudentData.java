@@ -47,6 +47,7 @@ public class NewStudentData {
         }
 
 
+
     }
     private void getStudent(String facultyID, String spesialityID, String nomKurs, String nomGroup, String rikKurs, String dicsiplineID, int nomSemestr) throws SQLException {
         Statement statement = connection.createStatement();
