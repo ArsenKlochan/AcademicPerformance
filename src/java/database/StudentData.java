@@ -53,12 +53,12 @@ public class  StudentData {
 
     //    додати студентів з БД
     public void addStudents(){
-        String dateFrom = "2022-04-01 00:00:00";
+        String dateFrom = "2023-02-01 00:00:00";
         int temp=0;
         try{
             Statement statement = connection.createStatement();
 //            вибір студентів з оцінками за досліджуваний семестр та за обраний вид контролю (nomsem%2=0 - парний семестр, nomsem%2=1 - непарний семестр)
-            ResultSet resultSet = statement.executeQuery("SELECT pass, D_ID, mark, type_control_id FROM module WHERE type_control_id > 1 && nomsem%2=0 && dt_from > '" + dateFrom + "'");
+            ResultSet resultSet = statement.executeQuery("SELECT pass, D_ID, mark, type_control_id FROM module WHERE type_control_id = 0 && nomsem%2=0 && dt_from > '" + dateFrom + "'");
             String typeOfControl;
             while (resultSet.next()){
                 typeOfControl = resultSet.getString(4);
@@ -74,7 +74,7 @@ public class  StudentData {
             for (Student student: students) {
                 temp++;
                 distributionOfStudents(student);
-                System.out.println(temp);
+//                System.out.println(temp);
             }
         }
         catch (SQLException throwables) {
@@ -89,13 +89,13 @@ public class  StudentData {
     public void distributionOfStudents(Student student){
         try{
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT P, I, B, S_ID, NomGroup, NomKurs, FAC_ID, F_ID FROM anketu WHERE pass= '"+ student.getStudentID() +"'");
+            ResultSet resultSet = statement.executeQuery("SELECT P, I, B, S_ID, NomGroup, NomKurs, FAC_ID, F_ID, RikKurs FROM anketu WHERE RikKurs> 18 AND pass= '"+ student.getStudentID() +"'");
                 while (resultSet.next()) {
                     String PIB = resultSet.getString(1) + " " + resultSet.getString(2) + " " + resultSet.getString(3);
                     String S_ID = resultSet.getString(4);
                     String faculty = resultSet.getString(7);
                     String nameOfSpeciality = getSpecialityName(S_ID);
-                    String nameOfGroup = nameOfSpeciality + "-" + resultSet.getString(6) + "-" + resultSet.getString(5) + formOfStudy[Integer.parseInt(resultSet.getString(8))-1];
+                    String nameOfGroup = nameOfSpeciality + "-" + resultSet.getString(6) + "-" + resultSet.getString(5) + formOfStudy[Integer.parseInt(resultSet.getString(8))-1]+ "-" + resultSet.getString(9);
                     student.setSurnameNamePatronicname(PIB);
                     student.setGroupName(nameOfGroup);
                     groups.get(checkGroup(nameOfGroup)).getStudentList().add(student);
@@ -185,8 +185,4 @@ public class  StudentData {
         }
         return facultyId.indexOf(pass);
     }
-
-
-
-
 }

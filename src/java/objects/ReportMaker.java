@@ -10,7 +10,7 @@ public class ReportMaker {
 
     public void initialization(){
         try {
-            fileWriter = new FileWriter("report", true);
+            fileWriter = new FileWriter("report125", true);
         } catch (IOException e) {
             System.out.println("Проблеми з файлом");
             e.printStackTrace();
