@@ -1,3 +1,4 @@
+import database.NewStudentData;
 import database.StudentData;
 import objects.*;
 
@@ -10,23 +11,26 @@ public class Main {
     private static ReportMaker reportMaker = new ReportMaker();
     public static void main(String[] args) {
 
-        StudentData studentData = new StudentData();
-        studentData.addStudents();
+//        StudentData studentData = new StudentData();
+//        studentData.addStudents();
+        NewStudentData newStudentData = new NewStudentData();
+        newStudentData.addStudents(2);
+
 
 //        for (int i = 2; i<=7; i++){
 //            System.out.println(String.valueOf(i));
 //            studentData.addStudents();
 //        }
-        printData(studentData.getStudents(), "НТУ");
+//        printData(studentData.getStudents(), "НТУ");
 //        for (Faculty faculty: studentData.getFaculties()){
 //            printData(faculty.getStudentList(), faculty.getFacultuName());
 //        }
 //        for (Speciality speciality: studentData.getSpecialities()){
 //            printData(speciality.getStudentsList(), speciality.getSpecialityName());
 //        }
-        for (Group group: studentData.getGroups()){
-            printData(group.getStudentList(), group.getGroupName());
-        }
+//        for (Group group: studentData.getGroups()){
+//            printData(group.getStudentList(), group.getGroupName());
+//        }
     }
 
     private static void printData(ArrayList<Student> students, String name){
