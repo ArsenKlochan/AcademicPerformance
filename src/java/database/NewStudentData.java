@@ -57,8 +57,8 @@ public class NewStudentData {
     public ArrayList<Faculty> getFaculties() {
         return faculties;
     }
-    public ArrayList<String> getDepartmentId() {
-        return departmentId;
+    public ArrayList<Departmen> getDepartments() {
+        return departments;
     }
 
 
@@ -84,7 +84,7 @@ public class NewStudentData {
                     if (getDiscipline(pass, dicsiplineID, nomSemestra)){
                         tempDiscipline = dicsiplineID;
                         tempMark = getMarks(pass,dicsiplineID, nomSemestra, typeOfControl);
-                        addDiscipline(tempStudent, tempDiscipline,tempMark, typeOfControl);
+                        addDiscipline(tempStudent, tempDiscipline, getDepartmentName(departmentID), tempMark, typeOfControl);
                     }
                 }
 
@@ -140,7 +140,7 @@ public class NewStudentData {
         return studentId.indexOf(pass);
     }
     //    метод додавання дисципліни в відповідний масив для студента. Якщо дисципліна або практика або атестація, то не додає.
-    private void addDiscipline (Student student, String discipline, String mark, String typeOfControl){
+    private void addDiscipline (Student student, String discipline, String department, String mark, String typeOfControl){
         if(!(listAtestations.contains(discipline) || listPracties.contains(discipline))){
             try {
                 Statement statement = connection.createStatement();
@@ -169,6 +169,9 @@ public class NewStudentData {
             else {
                 student.setDisciplineWithoutZeroMark(discipline);
             }
+//            departments.get(checkDepartment(department)).getStudentsList().add(student);
+            temp++;
+            System.out.println(temp);
         }
     }
     //    розподіл студентів по групам, факультетам, спеціальностях
@@ -177,7 +180,6 @@ public class NewStudentData {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT P, I, B, S_ID, NomGroup, NomKurs, FAC_ID, F_ID, RikKurs FROM anketu WHERE RikKurs> 18 AND pass= '"+ student.getStudentID() +"'");
             while (resultSet.next()) {
-
                 String PIB = resultSet.getString(1) + " " + resultSet.getString(2) + " " + resultSet.getString(3);
                 String S_ID = resultSet.getString(4);
                 String faculty = resultSet.getString(7);
@@ -197,7 +199,7 @@ public class NewStudentData {
         String nameOfSpeciality = "";
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT SAbrCyr FROM spec WHERE S_ID = '" + S_ID + "'");
+            ResultSet resultSet = statement.executeQuery("SELECT SAbrCyr FROM spec WHERE S_ID = " + S_ID);
             while (resultSet.next()) {
                 nameOfSpeciality = resultSet.getString(1);
             }
@@ -205,6 +207,20 @@ public class NewStudentData {
             e.printStackTrace();
         }
         return nameOfSpeciality;
+    }
+
+    private String getDepartmentName(String k_ID){
+        String nameOfDepartment = "";
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT NameKaf FROM kafedru WHERE K_ID = " + k_ID);
+            while (resultSet.next()) {
+                nameOfDepartment = resultSet.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nameOfDepartment;
     }
     //   метод знаходження індексу групи в динамічному масиві, якщо групи не знаходить, то дадає його в масив
     private int checkGroup(String pass){
@@ -229,5 +245,13 @@ public class NewStudentData {
             facultyId.add(pass);
         }
         return facultyId.indexOf(pass);
+    }
+    //   метод знаходження індексу кафедри в динамічному масиві, якщо факультет не знаходить, то дадає його в масив
+    private int checkDepartment(String pass){
+        if(!departmentID.contains(pass)){
+            departments.add(new Departmen(pass));
+            departmentId.add(pass);
+        }
+        return departmentId.indexOf(pass);
     }
 }

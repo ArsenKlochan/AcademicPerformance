@@ -22,12 +22,15 @@ public class Main {
 //            studentData.addStudents();
 //        }
 //        printData(studentData.getStudents(), "НТУ");
-        for (Faculty faculty: newStudentData.getFaculties()){
-            printData(faculty.getStudentList(), faculty.getFacultuName());
-        }
-//        for (Speciality speciality: studentData.getSpecialities()){
-//            printData(speciality.getStudentsList(), speciality.getSpecialityName());
+//        for (Faculty faculty: newStudentData.getFaculties()){
+//            printData(faculty.getStudentList(), faculty.getFacultuName());
 //        }
+//        for (Departmen departmen: newStudentData.getDepartments()){
+//            printData(departmen.getStudentsList(), departmen.getDepartmentName());
+//        }
+        for (Speciality speciality: newStudentData.getSpecialities()){
+            printData(speciality.getStudentsList(), speciality.getSpecialityName());
+        }
 //        for (Group group: newStudentData.getGroups()){
 //            printData(group.getStudentList(), group.getGroupName());
 //        }
