@@ -4,13 +4,14 @@ import org.w3c.dom.ls.LSOutput;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.SQLOutput;
 
 public class ReportMaker {
     private static FileWriter fileWriter;
 
-    public void initialization(){
+    public void initialization(String name){
         try {
-            fileWriter = new FileWriter("report125", true);
+            fileWriter = new FileWriter(name, true);
         } catch (IOException e) {
             System.out.println("Проблеми з файлом");
             e.printStackTrace();

@@ -9,6 +9,7 @@ public class Main {
     private static int[] studentsWithZeros = new int[12];
     private static ArrayList<Student>[] studentsNames = new ArrayList[12];
     private static ReportMaker reportMaker = new ReportMaker();
+//    private static ReportMaker detailReportMaker = new ReportMaker();
     public static void main(String[] args) {
 
 //        StudentData studentData = new StudentData();
@@ -21,16 +22,19 @@ public class Main {
 //            System.out.println(String.valueOf(i));
 //            studentData.addStudents();
 //        }
-//        printData(studentData.getStudents(), "НТУ");
+//        printData(newStudentData.getStudents(), "НТУ");
 //        for (Faculty faculty: newStudentData.getFaculties()){
 //            printData(faculty.getStudentList(), faculty.getFacultuName());
 //        }
-//        for (Departmen departmen: newStudentData.getDepartments()){
+//          for (Departmen departmen: newStudentData.getDepartments()){
 //            printData(departmen.getStudentsList(), departmen.getDepartmentName());
+//          }
+          for (Discipline discipline: newStudentData.getDisciplines()){
+              discipline.print();
+          }
+//        for (Speciality speciality: newStudentData.getSpecialities()){
+//            printData(speciality.getStudentsList(), speciality.getSpecialityName());
 //        }
-        for (Speciality speciality: newStudentData.getSpecialities()){
-            printData(speciality.getStudentsList(), speciality.getSpecialityName());
-        }
 //        for (Group group: newStudentData.getGroups()){
 //            printData(group.getStudentList(), group.getGroupName());
 //        }
@@ -41,8 +45,10 @@ public class Main {
             studentsNames[i] = new ArrayList<>();
             studentsWithZeros[i] = 0;
         }
-        reportMaker.initialization();
+        reportMaker.initialization("Report");
+//        detailReportMaker.initialization("DetailReport");
         reportMaker.addRecord(name + " (" + students.size() + " студентів) " + "\n");
+//        detailReportMaker.addRecord(name + " (" + students.size() + " студентів) " + "\n");
 //        System.out.println(name);
         int studentWithAllZeros = 0;
         for (Student student: students){
@@ -96,36 +102,40 @@ public class Main {
                 studentsWithZeros[10]++;
             }
         }
-        System.out.println("Кількість студентів у яких всі нулі - " + studentWithAllZeros + ", що складає - " + (studentWithAllZeros * 10000 / students.size())/100.0 + "%");
-        System.out.println("Кількість студентів у яких немає нулів - " + studentsWithZeros[0] + ", що складає - " + (studentsWithZeros[0] * 10000 / students.size())/100.0 + "%");
-        addRecords(students);
+        if(students.size()>0) {
+            System.out.println("Кількість студентів, у яких всі нулі - " + studentWithAllZeros + ", що складає - " + (studentWithAllZeros * 10000 / students.size()) / 100.0 + "%");
+            System.out.println("Кількість студентів, у яких немає нулів - " + studentsWithZeros[0] + ", що складає - " + (studentsWithZeros[0] * 10000 / students.size()) / 100.0 + "%");
+            addRecords(students);
+        }
     }
 
     private static void addRecords(ArrayList<Student> students){
         for (int i = 0; i<= 11; i++){
             String temp = "";
             if(i == 0){
-                temp = "Кількість студентів у яких немає нулів - " + studentsWithZeros[i] + ", що складає - " + (studentsWithZeros[i] * 10000 / students.size()) / 100.0 + "%" + "\n";
+                temp = "Кількість студентів, у яких немає нулів - " + studentsWithZeros[i] + ", що складає - " + (studentsWithZeros[i] * 10000 / students.size()) / 100.0 + "%" + "\n";
             }
             else if(i == 11){
-                temp = "Кількість студентів у яких всі нулі - " + studentsWithZeros[i] + ", що складає - " + (studentsWithZeros[i] * 10000 / students.size())/100.0 + "%" + "\n";
+                temp = "Кількість студентів, у яких всі нулі - " + studentsWithZeros[i] + ", що складає - " + (studentsWithZeros[i] * 10000 / students.size())/100.0 + "%" + "\n";
             }
             else if(studentsWithZeros[i] > 0) {
-                temp = "Кількість студентів у яких " + nameOfZeros[i] + " - " + studentsWithZeros[i] + ", що складає - " + (studentsWithZeros[i] * 10000 / students.size()) / 100.0 + "%" + "\n";
+                temp = "Кількість студентів, у яких " + nameOfZeros[i] + " - " + studentsWithZeros[i] + ", що складає - " + (studentsWithZeros[i] * 10000 / students.size()) / 100.0 + "%" + "\n";
             }
             reportMaker.addRecord(temp);
+//            detailReportMaker.addRecord(temp);
             // додавання інформації про студентів і дисципліни з яких у них нулі
-//            int count = 0;
-//            for (Student student: studentsNames[i]){
-//                count++;
-//                reportMaker.addRecord(count + " " + student.getSurnameNamePatronicname() + " \n");
-//                for(String str: student.getDisciplineWithZeroMark()){
-//                    reportMaker.addRecord(str + ", ");
-//                }
-//                reportMaker.addRecord("\n");
-//
-//            }
-//            System.out.println(temp);
+            int count = 0;
+            for (Student student: studentsNames[i]){
+                count++;
+                reportMaker.addRecord(count + " " + student.getSurnameNamePatronicname());
+                for(String str: student.getDisciplineWithZeroMark()){
+                    reportMaker.addRecord("  "+ str + ", ");
+                }
+                reportMaker.addRecord("\n");
+
+            }
         }
+        reportMaker.exit();
+//        detailReportMaker.exit();
     }
 }

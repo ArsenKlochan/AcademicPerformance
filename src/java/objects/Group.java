@@ -17,4 +17,8 @@ public class Group {
     public ArrayList<Student> getStudentList() {
         return studentList;
     }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
 }

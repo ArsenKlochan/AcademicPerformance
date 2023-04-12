@@ -17,4 +17,10 @@ public class Departmen {
     public ArrayList<Student> getStudentsList() {
         return studentsList;
     }
+
+    public void addStudent (Student student){
+        if (! studentsList.contains(student)){
+            studentsList.add(student);
+        }
+    }
 }
