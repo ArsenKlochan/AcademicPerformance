@@ -29,15 +29,15 @@ public class Main {
 //          for (Departmen departmen: newStudentData.getDepartments()){
 //            printData(departmen.getStudentsList(), departmen.getDepartmentName());
 //          }
-          for (Discipline discipline: newStudentData.getDisciplines()){
-              discipline.print();
-          }
+//          for (Discipline discipline: newStudentData.getDisciplines()){
+//              discipline.print();
+//          }
 //        for (Speciality speciality: newStudentData.getSpecialities()){
 //            printData(speciality.getStudentsList(), speciality.getSpecialityName());
 //        }
-//        for (Group group: newStudentData.getGroups()){
-//            printData(group.getStudentList(), group.getGroupName());
-//        }
+        for (Group group: newStudentData.getGroups()){
+            printData(group.getStudentList(), group.getGroupName());
+        }
     }
 
     private static void printData(ArrayList<Student> students, String name){
@@ -132,7 +132,6 @@ public class Main {
                     reportMaker.addRecord("  "+ str + ", ");
                 }
                 reportMaker.addRecord("\n");
-
             }
         }
         reportMaker.exit();

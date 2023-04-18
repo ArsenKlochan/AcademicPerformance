@@ -51,7 +51,7 @@ public class Discipline {
         System.out.println(studentsListWithoutZero.size());
         if(students.size()>0 && studentsListWithZero.size()==students.size()) {
             reportMaker.addRecord(disciplineName + " " + group +" ("+ department+ ") "+ " (" + students.size() + " студентів) " + "\n");
-            reportMaker.addRecord("Кількість студентів, у яких нулі - " + studentsListWithZero.size() + ", що складає - " + (studentsListWithZero.size() * 10000 / students.size()) / 100.0 + "%" + "\n");
+//            reportMaker.addRecord("Кількість студентів, у яких нулі - " + studentsListWithZero.size() + ", що складає - " + (studentsListWithZero.size() * 10000 / students.size()) / 100.0 + "%" + "\n");
             reportMaker.exit();
         }
     }

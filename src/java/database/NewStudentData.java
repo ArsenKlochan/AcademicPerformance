@@ -110,7 +110,7 @@ public class NewStudentData {
         Statement statement = connection.createStatement();
         ArrayList<String> studentPass= new ArrayList<>();
         //вибір студентів
-        ResultSet resultSet1 = statement.executeQuery("SELECT Pass FROM anketu WHERE FAC_ID ="+facultyID+" AND S_ID= " + spesialityID +" AND NomKurs="+nomKurs+" AND NomGroup="+nomGroup+" AND RikKurs= "+ rikKurs);
+        ResultSet resultSet1 = statement.executeQuery("SELECT Pass FROM anketu WHERE FAC_ID ="+facultyID+" AND S_ID= " + spesialityID +" AND NomKurs="+nomKurs+" AND NomGroup="+nomGroup+" AND RikKurs= "+ rikKurs+" AND F_ID= 1");
         while(resultSet1.next()){
             String pass= resultSet1.getString(1);
             studentPass.add(pass);
@@ -192,9 +192,9 @@ public class NewStudentData {
                 String faculty = resultSet.getString(7);
                 String nameOfSpeciality = getSpecialityName(S_ID);
                 student.setSurnameNamePatronicname(PIB);
-                String nameOfGroup = getSpecialityName(spesialityID) + "-" + nomKurs + "-" + nomGroup + formOfStudy[Integer.parseInt(resultSet.getString(8))-1]+ "-" + rikKurs;
+//                String nameOfGroup = getSpecialityName(spesialityID) + "-" + nomKurs + "-" + nomGroup + formOfStudy[Integer.parseInt(resultSet.getString(8))-1]+ "-" + rikKurs;
                 groups.get(checkGroup(student.getGroupName())).getStudentList().add(student);
-                groups.get(checkGroup(student.getGroupName())).setGroupName(nameOfGroup);
+//                groups.get(checkGroup(student.getGroupName())).setGroupName(nameOfGroup);
                 specialities.get(checkSpeciality(nameOfSpeciality)).getStudentsList().add(student);
                 faculties.get(checkFaculty(faculty)).getStudentList().add(student);
             }
