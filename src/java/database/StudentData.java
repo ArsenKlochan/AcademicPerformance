@@ -1,5 +1,6 @@
 package database;
 
+import com.fasterxml.jackson.databind.util.ISO8601Utils;
 import objects.*;
 
 import java.sql.Connection;
@@ -95,9 +96,11 @@ public class  StudentData {
                     String S_ID = resultSet.getString(4);
                     String faculty = resultSet.getString(7);
                     String nameOfSpeciality = getSpecialityName(S_ID);
-                    String nameOfGroup = nameOfSpeciality + "-" + resultSet.getString(6) + "-" + resultSet.getString(5) + formOfStudy[Integer.parseInt(resultSet.getString(8))-1]+ "-" + resultSet.getString(9);
+                    String nameOfGroup ="("+ faculty+ ")" + nameOfSpeciality + "-" + resultSet.getString(6) + "-" + resultSet.getString(5) + formOfStudy[Integer.parseInt(resultSet.getString(8))-1]+ "-" + resultSet.getString(9);
                     student.setSurnameNamePatronicname(PIB);
                     student.setGroupName(nameOfGroup);
+                    System.out.println(nameOfGroup);
+                    System.out.println(nameOfSpeciality);
                     groups.get(checkGroup(nameOfGroup)).getStudentList().add(student);
                     specialities.get(checkSpeciality(nameOfSpeciality)).getStudentsList().add(student);
                     faculties.get(checkFaculty(faculty)).getStudentList().add(student);
@@ -113,7 +116,7 @@ public class  StudentData {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT SAbrCyr FROM spec WHERE S_ID = '" + S_ID + "'");
             while (resultSet.next()) {
-                nameOfSpeciality = resultSet.getString(1);
+                nameOfSpeciality = "(" + S_ID + ")" + resultSet.getString(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -186,4 +189,30 @@ public class  StudentData {
         }
         return facultyId.indexOf(pass);
     }
+//    public void checkNavchZakl(){
+//        try {
+//            Statement statement = connection.createStatement();
+//            ArrayList<String> tempNavchZakl= new ArrayList<>();
+//            String temp;
+//            int count = 0;
+//            ResultSet resultSet = statement.executeQuery("SELECT NavchZakl FROM arhiv_anketu");
+//            while (resultSet.next()) {
+//                temp = resultSet.getString(1);
+//                if(temp.length() > 250){
+//                    count++;
+//                    tempNavchZakl.add(count + " " + temp + " " + temp.length());
+//                }
+//            }
+//            for (String NavchZakl:tempNavchZakl){
+//                System.out.println(NavchZakl);
+//            }
+//
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        }
+//        catch (NullPointerException throwables) {
+//            throwables.printStackTrace();
+//        }
+//
+//    }
 }
