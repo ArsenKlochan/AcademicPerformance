@@ -12,11 +12,11 @@ public class Main {
 //    private static ReportMaker detailReportMaker = new ReportMaker();
     public static void main(String[] args) {
 
-        StudentData studentData = new StudentData();
+//        StudentData studentData = new StudentData();
 //        studentData.checkNavchZakl();
-        studentData.addStudents();
-//        NewStudentData newStudentData = new NewStudentData();
-//        newStudentData.addStudents(2);
+//        studentData.addStudents();
+        NewStudentData newStudentData = new NewStudentData();
+        newStudentData.addStudents(2);
 
 //        for (int i = 2; i<=7; i++){
 //            System.out.println(String.valueOf(i));
@@ -35,7 +35,7 @@ public class Main {
 //        for (Speciality speciality: newStudentData.getSpecialities()){
 //            printData(speciality.getStudentsList(), speciality.getSpecialityName());
 //        }
-        for (Group group: studentData.getGroups()){
+        for (Group group: newStudentData.getGroups()){
             printData(group.getStudentList(), group.getGroupName());
         }
     }
@@ -125,14 +125,14 @@ public class Main {
 //            detailReportMaker.addRecord(temp);
             // додавання інформації про студентів і дисципліни з яких у них нулі
             int count = 0;
-//            for (Student student: studentsNames[i]){
-//                count++;
-//                reportMaker.addRecord(count + " " + student.getSurnameNamePatronicname());
-//                for(String str: student.getDisciplineWithZeroMark()){
-//                    reportMaker.addRecord("  "+ str + ", ");
-//                }
-//                reportMaker.addRecord("\n");
-//            }
+            for (Student student: studentsNames[i]){
+                count++;
+                reportMaker.addRecord(count + " " + student.getSurnameNamePatronicname());
+                for(String str: student.getDisciplineWithZeroMark()){
+                    reportMaker.addRecord("  "+ str + ", ");
+                }
+                reportMaker.addRecord("\n");
+            }
         }
         reportMaker.exit();
 //        detailReportMaker.exit();

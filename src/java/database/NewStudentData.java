@@ -30,7 +30,7 @@ public class NewStudentData {
     private String dicsiplineID;
     private String numberSemestr;
     private String tempdepartmentID;
-    String typeOfControl = "1";
+    String typeOfControl = "0";
     int temp=0;
 
     private ArrayList<Student> students = new ArrayList<>();
@@ -266,7 +266,7 @@ public class NewStudentData {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT F_ID FROM anketu WHERE pass= '"+ pass +"'");
             while (resultSet.next()) {
-                nameOfGroup = "(" + pass + ")" + getSpecialityName(spesialityID) + "-" + nomKurs + "-" + nomGroup + formOfStudy[Integer.parseInt(resultSet.getString(1))-1]+ "-" + rikKurs;
+                nameOfGroup = "(" + facultyID + ")" + "(" + spesialityID + ")" + getSpecialityName(spesialityID) + "-" + nomKurs + "-" + nomGroup + formOfStudy[Integer.parseInt(resultSet.getString(1))-1]+ "-" + rikKurs;
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
